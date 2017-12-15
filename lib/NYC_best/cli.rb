@@ -19,7 +19,7 @@ class NYCBest::CLI
     # puts "6. Paulie Gee's - Greenpoint - $$ - 4.6 stars"
     # puts "7. DI Fara Pizza - Midwood - $$ - 4.6 stars"
     # puts "8. Rubirosa Ristorante - NoLita - $$ - 4.5 stars"
-    @restaurants = NYCBest::Restaurant.today
+    @restaurants = NYCBest::Restaurant.list
   end
 
   def menu
