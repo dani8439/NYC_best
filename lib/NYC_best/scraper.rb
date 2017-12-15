@@ -13,7 +13,8 @@ class NYCBestScraper
   def initialize(style)
     @cuisine = Cuisine.new
     @cuisine.style = style
-    @doc = Nokogiri::HTML(open("https://www.zagat.com/l/best-#{style}-in-nyc"))
+    # @doc = Nokogiri::HTML(open("https://www.zagat.com/l/best-#{style}-in-nyc"))
+    @doc = Nokogiri::HTML(open("https://www.zagat.com/citys-best/new-york-city#the-essentials"))
   end
 
   def scrape
@@ -22,12 +23,8 @@ class NYCBestScraper
   end
 
   def scrape_details
-
     # populate @cuisine with more data from cuisine's restaurant listings
-    @doc.search("span.zgt-basic-facts-title-text").text.each do |restaurant|
-      @cuisine.restaurants << restaurant
-    end
-
+    @cuisine.style = @doc.search("div.label-score.zgt-city-guide-cuisine-name").text
   end
 
 end
