@@ -1,8 +1,15 @@
 - A command line interface for NYC's best cuisine's by type using Zagat
 
+CLI
+  -Scraper
+    -Cuisine
+      -Restaurants
+
 user types in NYC_best
+
 Show's a list of options: Steakhouse - Indian - Italian - Mexican - Seafood -
 French - Thai - Barbecue - Burger - Pizza - Chinese - American
+
 Which cuisine would you like to choose?
 Show a list of best rated restaurants.
 1. Juliana's - Dumbo - $$ - 4.7 stars
@@ -28,7 +35,8 @@ What is a Restaurant?
 
 A restaurant has a name
 A restaurant has a price_level
+A restaurant has a neighborhood
 A restaurant has a rating
-A restaurant has a url
+A restaurant has a url?
 A restaurant has a Review
-A restaurant has choice_orders
+A restaurant has recommended_dishes
