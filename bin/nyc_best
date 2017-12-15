@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require "./lib/NYC_best"
+require './lib/NYC_best'
 
 NYCBest::CLI.new.call
 

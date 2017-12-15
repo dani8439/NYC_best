@@ -1,7 +1,7 @@
 class InvalidType < StandardError; end
 
 class Cuisine
-  attr_accessor :style
+  attr_accessor :type
   # attr_reader :restaurants
 
   def initialize
