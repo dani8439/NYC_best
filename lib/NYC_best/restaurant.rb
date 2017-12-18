@@ -1,6 +1,22 @@
 class NYCBest::Restaurant
   attr_accessor :name, :location, :price, :food_rating, :decor_rating, :service_rating, :review, :recommended_dishes, :url, :insider_tip
 
+  @@all = []
+
+  def initialize(name = nil, location = nil, price = nil, food_rating = nil, recommended_dishes = nil, url = nil)
+    @name = name
+    @location = location
+    @price = price
+    @food_rating = food_rating
+    @recommended_dishes = recommended_dishes
+    @url = url
+    @@all << self
+  end
+
+  def self.all
+    @@all
+  end
+
   def self.list
     #scrape zagat and return list based on that data.
     self.scrape_restaurants
@@ -13,6 +29,7 @@ class NYCBest::Restaurant
     restaurants = []
 
     restaurants << self.scrape_zagat
+    restaurants << self.scrape_thrillist
 
     restaurants
   end
@@ -20,9 +37,10 @@ class NYCBest::Restaurant
   def self.scrape_zagat
     restaurants = []
     @doc = Nokogiri::HTML(open("https://www.zagat.com/l/best-pizza-in-nyc"))
-    @doc.search("div.zgt-basic-facts-title").each do |place|
+    @doc.search("div.zgt-list-placecard-info").each do |place|
       restaurant = NYCBest::Restaurant.new
       restaurant.name = place.search("span.zgt-basic-facts-title-text").text
+
 
       restaurants << restaurant
     end
@@ -34,9 +52,9 @@ class NYCBest::Restaurant
     @doc = Nokogiri::HTML(open("https://www.thrillist.com/eat/new-york/the-best-pizza-in-new-york-city"))
     @doc.search("div#content-left.is-standard").each do |place|
       restaurant = NYCBest::Restaurant.new
-      restaurant.name = place.search("a.save-venue__link").text
-      restaurant.location = place.search("h2.save-venue__neighborhood.font--h4").text
-      restaurant.description = place.search("em strong").text
+      restaurant.name = place.search("h1.save-venue__title.font--h1 a.save-venue__link").text
+      # restaurant.location = place.search("h2.save-venue__neighborhood.font--h4").text
+      # restaurant.recommended_dishes = place.search("em strong").text
 
       restaurants << restaurant
     end
