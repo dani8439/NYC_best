@@ -34,16 +34,15 @@ class NYCBest::Restaurant
   end
 
   def self.scrape_zagat
-    restaurants = []
     @doc = Nokogiri::HTML(open("https://www.zagat.com/l/best-pizza-in-nyc"))
-    @doc.search("div.zgt-list-placecard-info").each do |place|
+    @doc.search("zgt-basic-facts[place='::listPlacecardCtrl.listPlace.getPlace()']").each do |place|
       restaurant = NYCBest::Restaurant.new
-      restaurant.name = place.search("span.zgt-basic-facts-title-text").text
+      restaurant.name = place.search("div div.zgt-basic-facts-title span.zgt-basic-facts-title-text").text
+      restaurant.location = place.search("span.zgt-basic-facts-neighborhood").text
 
-
-      restaurants << restaurant
+      @@all << restaurant
     end
-    restaurants
+    @@all
   end
 
   def self.scrape_thrillist
@@ -53,7 +52,7 @@ class NYCBest::Restaurant
       restaurant.name = place.search("h1.font--h1.save-venue__title a").text
       restaurant.location = place.search("h2.save-venue__neighborhood.font--h4").text
       restaurant.known_for = place.search("strong").text
-      restaurant.url = place.search("")
+      # restaurant.description = place.search("p.font--body.save-venue__description").text
 
       @@all << restaurant
     end
