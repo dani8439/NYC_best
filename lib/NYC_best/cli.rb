@@ -28,7 +28,7 @@ class NYCBest::CLI
         the_restaurant = @restaurants[input.to_i-1]
         puts ""
         puts "#{the_restaurant.name} - #{the_restaurant.location} - #{the_restaurant.price}"
-        puts "_________________________________________________________________________________________________________________________________________"
+        puts "____________________________________________________________________________"
         puts "Food: #{the_restaurant.food_rating} - Decor: #{the_restaurant.decor_rating} - Service: #{the_restaurant.service_rating}"
         puts "_________________________________________________________________________________________________________________________________________"
         puts "#{the_restaurant.review}"

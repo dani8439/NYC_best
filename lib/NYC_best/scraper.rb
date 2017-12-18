@@ -7,7 +7,7 @@
 # # 4. We need to scrape the individual restaurants of that cuisine and add them to that instance
 #
 #
-class NYCBestScraper
+class RestaurantScraper
   attr_accessor :cuisine, :doc
 
   def initialize(type)
@@ -22,7 +22,7 @@ class NYCBestScraper
     @cuisine #=> This instance should have a bunch of types and restaurants
   end
 
-  def scrape_details
+  def scrape_restaurants
     cuisine = []
     # populate @cuisine with types from webpage categories
     @doc = Nokogiri::HTML(open("https://www.zagat.com/citys-best/new-york-city#the-essentials"))
