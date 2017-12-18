@@ -1,14 +1,13 @@
 class NYCBest::Restaurant
-  attr_accessor :name, :location, :price, :food_rating, :decor_rating, :service_rating, :review, :recommended_dishes, :url, :insider_tip
+  attr_accessor :name, :location, :price, :food_rating, :decor_rating, :service_rating, :review, :known_for, :url, :insider_tip
 
   @@all = []
 
-  def initialize(name = nil, location = nil, price = nil, food_rating = nil, recommended_dishes = nil, url = nil)
+  def initialize(name = nil, location = nil, known_for = nil, review = nil, url = nil)
     @name = name
     @location = location
-    @price = price
-    @food_rating = food_rating
-    @recommended_dishes = recommended_dishes
+    @known_for = known_for
+    @review = review
     @url = url
     @@all << self
   end
@@ -48,17 +47,17 @@ class NYCBest::Restaurant
   end
 
   def self.scrape_thrillist
-    restaurants = []
     @doc = Nokogiri::HTML(open("https://www.thrillist.com/eat/new-york/the-best-pizza-in-new-york-city"))
-    @doc.search("div#content-left.is-standard").each do |place|
+    @doc.search("section.save-venue.saveable-venue.has-spacing.is-standard").each do |place|
       restaurant = NYCBest::Restaurant.new
-      restaurant.name = place.search("h1.save-venue__title.font--h1 a.save-venue__link").text
-      # restaurant.location = place.search("h2.save-venue__neighborhood.font--h4").text
-      # restaurant.recommended_dishes = place.search("em strong").text
+      restaurant.name = place.search("h1.font--h1.save-venue__title a").text
+      restaurant.location = place.search("h2.save-venue__neighborhood.font--h4").text
+      restaurant.known_for = place.search("strong").text
+      restaurant.url = place.search("")
 
-      restaurants << restaurant
+      @@all << restaurant
     end
-    restaurants
+    @@all
   end
 end
 
