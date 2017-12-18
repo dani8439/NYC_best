@@ -14,7 +14,7 @@ class NYCBest::CLI
   def list_restaurants
     @restaurants = NYCBest::Restaurant.list
     @restaurants.each.with_index(1) do |restaurant, i|
-      puts "#{i}. #{restaurant.name} - #{restaurant.location} - #{restaurant.price} - #{restaurant.rating}"
+      puts "#{i}. #{restaurant.name} - #{restaurant.location} - #{restaurant.price} - #{restaurant.food_rating}"
     end
   end
 
@@ -27,13 +27,15 @@ class NYCBest::CLI
       if input.to_i > 0
         the_restaurant = @restaurants[input.to_i-1]
         puts ""
-        puts "#{the_restaurant.name} - #{the_restaurant.location} - #{the_restaurant.price} - #{the_restaurant.rating}"
-        puts "____________________________________________________________________________"
+        puts "#{the_restaurant.name} - #{the_restaurant.location} - #{the_restaurant.price}"
+        puts "_________________________________________________________________________________________________________________________________________"
+        puts "Food: #{the_restaurant.food_rating} - Decor: #{the_restaurant.decor_rating} - Service: #{the_restaurant.service_rating}"
+        puts "_________________________________________________________________________________________________________________________________________"
         puts "#{the_restaurant.review}"
-        puts "____________________________________________________________________________"
-        puts "#{the_restaurant.recommended_dishes}"
-        puts "____________________________________________________________________________"
-        puts "#{the_restaurant.insider_tip}"
+        puts "_________________________________________________________________________________________________________________________________________"
+        puts "Recommended Dishs: #{the_restaurant.recommended_dishes}"
+        puts "_________________________________________________________________________________________________________________________________________"
+        puts "Insider's Tip: #{the_restaurant.insider_tip}"
         puts ""
       elsif input == "list"
         list_restaurants
