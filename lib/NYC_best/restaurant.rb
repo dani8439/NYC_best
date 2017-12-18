@@ -34,15 +34,19 @@ class NYCBest::Restaurant
   end
 
   def self.scrape_zagat
+    restaurants = []
     @doc = Nokogiri::HTML(open("https://www.zagat.com/l/best-pizza-in-nyc"))
-    @doc.search("zgt-basic-facts[place='::listPlacecardCtrl.listPlace.getPlace()']").each do |place|
+    @doc.search("div.flex-100.flex-gt-md-66.flex-order-5.flex-order-gt-sm-4.zgt-list-placecards[flex-order-gt-sm='4'][flex-order='5'][flex='100'][flex-gt-md='66']").each do |place|
       restaurant = NYCBest::Restaurant.new
-      restaurant.name = place.search("div div.zgt-basic-facts-title span.zgt-basic-facts-title-text").text
-      restaurant.location = place.search("span.zgt-basic-facts-neighborhood").text
+      restaurant.name = place.search("zgt-basic-facts[place='::listPlacecardCtrl.listPlace.getPlace()'] span.zgt-basic-facts-title-text").text
+      restaurant.location = place.search("zgt-basic-facts[place='::listPlacecardCtrl.listPlace.getPlace()'] span.zgt-basic-facts-neighborhood").text
+      restaurant.price = place.search("zgt-basic-facts[place='::listPlacecardCtrl.listPlace.getPlace()'] zgt-zagat-price[ng-if='::factsCtrl.place.getPrice()'][price='::factsCtrl.place.getPrice()'] span").text
 
-      @@all << restaurant
+
+
+      restaurants << restaurant
     end
-    @@all
+    restaurants
   end
 
   def self.scrape_thrillist
