@@ -18,8 +18,29 @@ class NYCBest::Restaurant
   end
 
   def self.scrape_zagat
-    doc = Nokogiri::HTML(open("https://www.zagat.com/l/best-pizza-in-nyc"))
-    binding.pry
+    restaurants = []
+    @doc = Nokogiri::HTML(open("https://www.zagat.com/l/best-pizza-in-nyc"))
+    @doc.search("div.zgt-basic-facts-title").each do |place|
+      restaurant = NYCBest::Restaurant.new
+      restaurant.name = place.search("span.zgt-basic-facts-title-text").text
+
+      restaurants << restaurant
+    end
+    restaurants
+  end
+
+  def self.scrape_thrillist
+    restaurants = []
+    @doc = Nokogiri::HTML(open("https://www.thrillist.com/eat/new-york/the-best-pizza-in-new-york-city"))
+    @doc.search("div#content-left.is-standard").each do |place|
+      restaurant = NYCBest::Restaurant.new
+      restaurant.name = place.search("a.save-venue__link").text
+      restaurant.location = place.search("h2.save-venue__neighborhood.font--h4").text
+      restaurant.description = place.search("em strong").text
+
+      restaurants << restaurant
+    end
+    restaurants
   end
 end
 
