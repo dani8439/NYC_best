@@ -25,29 +25,25 @@ class NYCBest::Restaurant
     #Go to Zagat or thrillist, find the restaurants
     #extract the names
     #instantiate a restaurant with all the details
-    restaurants = []
 
-    restaurants << self.scrape_zagat
-    restaurants << self.scrape_thrillist
-
-    restaurants
+    # restaurants << self.scrape_zagat
+    @@all << self.scrape_thrillist
+    @@all
   end
 
-  def self.scrape_zagat
-    restaurants = []
-    @doc = Nokogiri::HTML(open("https://www.zagat.com/l/best-pizza-in-nyc"))
-    @doc.search("div.flex-100.flex-gt-md-66.flex-order-5.flex-order-gt-sm-4.zgt-list-placecards[flex-order-gt-sm='4'][flex-order='5'][flex='100'][flex-gt-md='66']").each do |place|
-      restaurant = NYCBest::Restaurant.new
-      restaurant.name = place.search("zgt-basic-facts[place='::listPlacecardCtrl.listPlace.getPlace()'] span.zgt-basic-facts-title-text").text
-      restaurant.location = place.search("zgt-basic-facts[place='::listPlacecardCtrl.listPlace.getPlace()'] span.zgt-basic-facts-neighborhood").text
-      restaurant.price = place.search("zgt-basic-facts[place='::listPlacecardCtrl.listPlace.getPlace()'] zgt-zagat-price[ng-if='::factsCtrl.place.getPrice()'][price='::factsCtrl.place.getPrice()'] span").text
-
-
-
-      restaurants << restaurant
-    end
-    restaurants
-  end
+  # def self.scrape_zagat
+  #   restaurants = []
+  #   @doc = Nokogiri::HTML(open("https://www.zagat.com/l/best-pizza-in-nyc"))
+  #   @doc.search("zgt-basic-facts[place='::listPlacecardCtrl.listPlace.getPlace()']").each do |place|
+  #     restaurant = NYCBest::Restaurant.new
+  #     restaurant.name = place.search("span.zgt-basic-facts-title-text").text
+  #     restaurant.location = place.search("span.zgt-basic-facts-neighborhood").text
+      # restaurant.price = place.search("").text
+  #
+  #     restaurants << restaurant
+  #   end
+  #   restaurants
+  # end
 
   def self.scrape_thrillist
     @doc = Nokogiri::HTML(open("https://www.thrillist.com/eat/new-york/the-best-pizza-in-new-york-city"))
@@ -57,10 +53,11 @@ class NYCBest::Restaurant
       restaurant.location = place.search("h2.save-venue__neighborhood.font--h4").text
       restaurant.known_for = place.search("strong").text
       # restaurant.description = place.search("p.font--body.save-venue__description").text
+      restaurant.url = place.search("a.save-venue__link").attribute("href").value
 
       @@all << restaurant
     end
-    @@all
+    @@all.uniq!
   end
 end
 

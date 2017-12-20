@@ -12,9 +12,9 @@ class NYCBest::CLI
   end
 
   def list_restaurants
-    @restaurants = NYCBest::Restaurant.list
-    @restaurants.each.with_index(1) do |restaurant, i|
-      puts "#{i}. #{restaurant.name} - #{restaurant.location} - #{restaurant.price} - #{restaurant.food_rating}"
+    @@all = NYCBest::Restaurant.list
+    @@all.each.with_index(1) do |restaurant, i|
+      puts "#{i}. #{restaurant.name} - #{restaurant.location}"
     end
   end
 
@@ -27,15 +27,15 @@ class NYCBest::CLI
       if input.to_i > 0
         the_restaurant = @restaurants[input.to_i-1]
         puts ""
-        puts "#{the_restaurant.name} - #{the_restaurant.location} - #{the_restaurant.price}"
+        puts "#{the_restaurant.name} - #{the_restaurant.location}"
         puts "____________________________________________________________________________"
-        puts "Food: #{the_restaurant.food_rating} - Decor: #{the_restaurant.decor_rating} - Service: #{the_restaurant.service_rating}"
+        # puts "Food: #{the_restaurant.food_rating} - Decor: #{the_restaurant.decor_rating} - Service: #{the_restaurant.service_rating}"
+        # puts "_________________________________________________________________________________________________________________________________________"
+        puts "#{the_restaurant.known_for}"
         puts "_________________________________________________________________________________________________________________________________________"
-        puts "#{the_restaurant.review}"
-        puts "_________________________________________________________________________________________________________________________________________"
-        puts "Recommended Dishs: #{the_restaurant.recommended_dishes}"
-        puts "_________________________________________________________________________________________________________________________________________"
-        puts "Insider's Tip: #{the_restaurant.insider_tip}"
+        # puts "Recommended Dishs: #{the_restaurant.recommended_dishes}"
+        # puts "_________________________________________________________________________________________________________________________________________"
+        puts "Webside #{the_restaurant.url}"
         puts ""
       elsif input == "list"
         list_restaurants
